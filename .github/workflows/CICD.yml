@@ -17,19 +17,26 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'          
-      - name: build docker image
+          distribution: 'adopt'
+      - name: Building bar file
+        env: 
+           BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
+           BAR_STORE: /home/bandaru/Templates
+        run: $BAR_CREATION -data /root -b $BAR_STORE/Rest_Api_Application_Put_Get.bar -a Rest_Api_Application_Put_Get
+             
+      - name: Building docker image
         run:  docker build -t cp4i:v1 -f dockerfile .
-      - name: Login with OCR
-        run: docker login -u admin -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
       - name: docker tag
         run:  docker tag cp4i:v1 default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
+      - name: Login to OCR
+        run: docker login -u admin -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
       - name: docker push to OC internal reqistry
         run:  docker push default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
+
       - name: oc login
         run: |
              cd /usr/local/bin/ 
-             ./oc login --token=sha256~AJLfRCPW_OH5JAVTOQuOV8-Wrc44Y5E9afW1mvDGSUk --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
+             ./oc login --token=sha256~XoezIVOyszwptFIOEVu9ZX_vUpFZLLGPpoNPk8SsJzY --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
              ./oc project cp4i
              ./oc create -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i.yaml
-    
+             ./oc create -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i1.yaml
