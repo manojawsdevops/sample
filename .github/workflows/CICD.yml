@@ -38,5 +38,5 @@ jobs:
              cd /usr/local/bin/ 
              ./oc login --token=sha256~XoezIVOyszwptFIOEVu9ZX_vUpFZLLGPpoNPk8SsJzY --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
              ./oc project cp4i
-             ./oc create -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i.yaml
-             ./oc create -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i1.yaml
+             ./oc apply -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i.yaml
+             ./oc apply -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i1.yaml
