@@ -24,13 +24,13 @@ jobs:
            BAR_STORE: /home/bandaru/Templates
         run: $BAR_CREATION -data /root -b $BAR_STORE/Rest_Api_Application_Put_Get.bar -a Rest_Api_Application_Put_Get
              
-      - name: Building docker image
+      - name: Building Docker Image
         run:  docker build -t cp4i:v1 -f dockerfile .
-      - name: docker tag
+      - name: Docker tag
         run:  docker tag cp4i:v1 default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
       - name: Login to OCR
         run: docker login -u admin -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
-      - name: docker push to OC internal reqistry
+      - name: Docker push to OC internal reqistry
         run:  docker push default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
 
       - name: oc login
