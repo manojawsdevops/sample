@@ -29,14 +29,18 @@ jobs:
       - name: Docker tag
         run:  docker tag cp4i:v1 default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
       - name: Login to OCR
-        run: docker login -u admin -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
+        env:
+         OCR_USERNAME: ${{secrets.OCR_USERNAME}}
+         OC_LOGIN: ${{secrets.OC_LOGIN}}
+         OC_SERVER: ${{secrets.OC_SERVER}}
+        run: docker login -u $OCR_USERNAME -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
       - name: Docker push to OC internal reqistry
         run:  docker push default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
 
       - name: oc login
         run: |
              cd /usr/local/bin/ 
-             ./oc login --token=sha256~XoezIVOyszwptFIOEVu9ZX_vUpFZLLGPpoNPk8SsJzY --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
+             ./oc login --token=$OC_LOGIN--server=$OC_SERVER
              ./oc project cp4i
-             ./oc apply -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i.yaml
-             ./oc apply -f /home/bandaru/Desktop/docker/docker/cp4inew/cp4i1.yaml
+             ./oc apply -f manojawsdevops/NEW_UBA_POC/Rest_Api_Application_Put_Get/cp4i.yaml
+             ./oc apply -f manojawsdevops/NEW_UBA_POC/Rest_Api_Application_Put_Get/cp4i1.yaml
