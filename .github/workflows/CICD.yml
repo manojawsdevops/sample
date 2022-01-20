@@ -36,12 +36,9 @@ jobs:
         run:  docker push default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
 
       - name: oc login
-        env: 
-          OC_TOKEN: ${{secrets.OC_TOKEN}}
-          OC_SERVER: ${{secrets.OC_SERVER}}
         run: |
              cd /usr/local/bin/ 
-             ./oc login --token=$OC_TOKEN --server=$OC_SERVER
+             ./oc login --token=sha256~7hMOu9YTGMlI-ZkU0_hbNEgPBPJN3BDKupEsNAxIEhk --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
              ./oc project cp4i 
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i.yaml
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i1.yaml
