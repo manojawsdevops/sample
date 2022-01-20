@@ -40,7 +40,7 @@ jobs:
       - name: oc login
         run: |
              cd /usr/local/bin/ 
-             ./oc login --token=$OC_LOGIN--server=$OC_SERVER
+             ./oc login --token=sha256~WtFAPLlE6DGhe5j-jHu8XSGRVZuzPkVz4miN9IKg_rY --server=https://c104-e.us-east.containers.cloud.ibm.com:31739
              ./oc project cp4i
              ./oc apply -f manojawsdevops/NEW_UBA_POC/Rest_Api_Application_Put_Get/cp4i.yaml
              ./oc apply -f manojawsdevops/NEW_UBA_POC/Rest_Api_Application_Put_Get/cp4i1.yaml
