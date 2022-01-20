@@ -1,4 +1,4 @@
-name: UBA_CICD1
+name: UBA_CICD
 
 on:
   push:
