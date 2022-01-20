@@ -5,7 +5,13 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    
+
+env: 
+ BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
+ BAR_STORE: /home/bandaru/Templates
+ DEFAULT_ROUTE: ${{secrets.DEFAULT_ROUTE}}
+ OC_TOKEN: ${{secrets.OC_TOKEN}}
+ OC_SERVER: ${{secrets.OC_SERVER}} 
   
 jobs:
   build:
@@ -19,26 +25,16 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Building bar file
-        env: 
-           BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
-           BAR_STORE: /home/bandaru/Templates
         run: $BAR_CREATION -data /root -b $BAR_STORE/Rest_Api_Application_Put_Get.bar -a Rest_Api_Application_Put_Get
-             
-      - name: Building Docker Image
-        run:  docker build -t cp4i:v11 -f dockerfile .
-      - name: Docker tag
-        run:  docker tag cp4i:v11 default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
-      - name: Login to OCR
-        env:
-         OCR_USERNAME: ${{secrets.OCR_USERNAME}}
-        run: docker login -u $OCR_USERNAME -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
-      - name: Docker push to OC internal reqistry
-        run:  docker push default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/cp4i/cp4i:v1
+        
+      - name: Building Docker Image,Tag & Pushing to OCR Internal Registry
+        run: | 
+              docker build -t cp4i:v11 -f dockerfile .
+              docker tag cp4i:v11 $DEFAULT_ROUTE/cp4i/cp4i:v1
+              docker login -u $OCR_USERNAME -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
+              docker push $DEFAULT_ROUTE/cp4i/cp4i:v1
 
       - name: oc login
-        env: 
-          OC_TOKEN: ${{secrets.OC_TOKEN}}
-          OC_SERVER: ${{secrets.OC_SERVER}}
         run: |
              cd /usr/local/bin/ 
              ./oc login --token=$OC_TOKEN --server=$OC_SERVER
