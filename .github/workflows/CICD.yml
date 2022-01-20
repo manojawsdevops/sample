@@ -37,7 +37,7 @@ jobs:
 
       - name: oc login
         env: 
-          OC_TOKEN: ${{secrets.OC_TOKEN}
+          OC_TOKEN: ${{secrets.OC_TOKEN}}
           OC_SERVER: ${{secrets.OC_SERVER}}
         run: |
              cd /usr/local/bin/ 
