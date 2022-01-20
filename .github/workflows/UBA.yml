@@ -9,6 +9,7 @@ on:
 env: 
  BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
  BAR_STORE: /home/bandaru/Templates
+ OCR_USERNAME: ${{secrets.OCR_USERNAME}}
  DEFAULT_ROUTE: ${{secrets.DEFAULT_ROUTE}}
  OC_TOKEN: ${{secrets.OC_TOKEN}}
  OC_SERVER: ${{secrets.OC_SERVER}} 
