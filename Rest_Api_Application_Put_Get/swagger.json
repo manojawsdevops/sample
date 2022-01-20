@@ -1,0 +1,48 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "Rest_Api_Application_Put_Get",
+    "version" : "1.0.0",
+    "description" : "Rest_Api_Application_Put_Get"
+  },
+  "paths" : {
+    "/put_method" : {
+      "put" : {
+        "operationId" : "putPut_method",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Update put_method",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    },
+    "/get_method" : {
+      "get" : {
+        "operationId" : "getGet_method",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve get_method"
+      }
+    }
+  },
+  "basePath" : "/rest_api_application_put_get/v1"
+}
