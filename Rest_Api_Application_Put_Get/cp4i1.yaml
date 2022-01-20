@@ -1,10 +1,17 @@
 apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationServer
 metadata:
+<<<<<<< HEAD:Rest_Api_Application_Put_Get/cp4i1.yaml
   name: uba-integration-server-second
+=======
+  name: uba-integration-server-one
+>>>>>>> 0afd834a98ea7b7694f83ca98ac06049d391353c:cp4i.yaml
   namespace: cp4i
 spec:
-  adminServiceSecure: true
+  adminServerSecure: true
+  createDashboardUsers: true
+  designerFlowsOperationMode: disabled
+  enableMetrics: true
   license:
     accept: true
     license: L-KSBM-C5JEHP
@@ -12,20 +19,18 @@ spec:
   pod:
     containers:
       runtime:
-        image: image-registry.openshift-image-registry.svc:5000/cp4i/cp4i:v1
         resources:
           limits:
-            cpu: 900m
-            memory: 900Mi
+            cpu: 300m
+            memory: 350Mi
           requests:
             cpu: 300m
             memory: 300Mi
+  replicas: 1
   router:
-    timeout: 10s
-  designerFlowOperation: disabled
+    timeout: 120s
   service:
     endpointType: http
-  useCommonServices: true
-  version: 11.0.0.14-r1-eus
-  replicas: 1
-  logFormat: basic
+  version: '11.0.0.14-r1-eus'
+  barURL: >-
+    https://ace-dashboard-demo-dash:3443/v1/directories/Rest_Api_Application_Put_Get?6add4e18-7acd-464d-a314-e1b7ee8bddb6
