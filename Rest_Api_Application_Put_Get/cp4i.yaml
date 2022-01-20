@@ -1,0 +1,32 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: IntegrationServer
+metadata:
+  name: uba-integration-server-one
+  namespace: cp4i
+spec:
+  adminServerSecure: true
+  createDashboardUsers: true
+  designerFlowsOperationMode: disabled
+  enableMetrics: true
+  license:
+    accept: true
+    license: L-KSBM-C5JEHP
+    use: CloudPakForIntegrationNonProduction
+  pod:
+    containers:
+      runtime:
+        resources:
+          limits:
+            cpu: 300m
+            memory: 350Mi
+          requests:
+            cpu: 300m
+            memory: 300Mi
+  replicas: 1
+  router:
+    timeout: 120s
+  service:
+    endpointType: http
+  version: '11.0.0.14-r1-eus'
+  barURL: >-
+    https://ace-dashboard-demo-dash:3443/v1/directories/Rest_Api_Application_Put_Get?6add4e18-7acd-464d-a314-e1b7ee8bddb6
