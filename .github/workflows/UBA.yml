@@ -36,7 +36,7 @@ jobs:
 
               docker push $DEFAULT_ROUTE/cp4i/cp4i:v2
 
-      - name: oc login
+      - name: oc loginn
         run: |
              cd /usr/local/bin/ 
              ./oc login --token=$OC_TOKEN --server=$OC_SERVER
