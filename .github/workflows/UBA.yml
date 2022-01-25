@@ -30,10 +30,10 @@ jobs:
         
       - name: Building Docker Image,Tag & Pushing to OCR Internal Registry
         run: | 
-              docker build -t cp4i:v11 -f dockerfile .
-              docker tag cp4i:v11 $DEFAULT_ROUTE/cp4i/cp4i:v1
+              docker build -t cp4i:v2 -f dockerfile .
+              docker tag cp4i:v11 $DEFAULT_ROUTE/cp4i/cp4i:v2
               docker login -u $OCR_USERNAME -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
-              docker push $DEFAULT_ROUTE/cp4i/cp4i:v1
+              docker push $DEFAULT_ROUTE/cp4i/cp4i:v2
 
       - name: oc login
         run: |
