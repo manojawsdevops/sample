@@ -1,4 +1,4 @@
-name: UBA_CICD
+name: EDB_CICD
 
 on:
   push:
@@ -12,7 +12,10 @@ env:
  OCR_USERNAME: ${{secrets.OCR_USERNAME}}
  DEFAULT_ROUTE: ${{secrets.DEFAULT_ROUTE}}
  OC_TOKEN: ${{secrets.OC_TOKEN}}
- OC_SERVER: ${{secrets.OC_SERVER}} 
+ OC_SERVER: ${{secrets.OC_SERVER}}
+ oc_USERNAME: ${{secrets.oc_USERNAME}}
+ oc_PASSWORD: ${{secrets.oc_PASSWORD}}
+ oc_login: ${{oc_login}}
   
 jobs:
   build:
@@ -33,13 +36,11 @@ jobs:
               docker build -t cp4i:v2 -f dockerfile .
               docker tag cp4i:v11 $DEFAULT_ROUTE/cp4i/cp4i:v2
               docker login -u admin -p $(oc whoami -t) http://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud
-
               docker push $DEFAULT_ROUTE/cp4i/cp4i:v2
-
-      - name: oc loginn
+      - name: oc login
         run: |
              cd /usr/local/bin/ 
-             ./oc login --token=$OC_TOKEN --server=$OC_SERVER
+             ./oc login $OC_SERVER -u oc_USERNAME -p oc_PASSWORD
              ./oc project cp4i 
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i.yaml
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i1.yaml
