@@ -15,7 +15,7 @@ env:
  OC_SERVER: ${{secrets.OC_SERVER}}
  oc_USERNAME: ${{secrets.oc_USERNAME}}
  oc_PASSWORD: ${{secrets.oc_PASSWORD}}
- oc_login: ${{oc_login}}
+ oc_login: ${{secrets.oc_login}}
   
 jobs:
   build:
