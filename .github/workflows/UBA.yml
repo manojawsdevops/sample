@@ -40,7 +40,7 @@ jobs:
       - name: oc login
         run: |
              cd /usr/local/bin/ 
-             ./oc login $OC_SERVER -u oc_USERNAME -p oc_PASSWORD
+             ./oc login $OC_SERVER -u $oc_USERNAME -p $oc_PASSWORD
              ./oc project cp4i 
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i.yaml
              ./oc apply -f  /root/Rest_Api_Application_Put_Get/cp4i1.yaml
