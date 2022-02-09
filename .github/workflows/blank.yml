@@ -1,0 +1,46 @@
+name: CI
+
+on:
+
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+env:
+ BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
+ BAR_STORE: /home/bandaru/Templates
+ DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+ 
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Bar File Creation
+        run: $BAR_CREATION -data /root -b $BAR_STORE/Rest_Api_Application_Put_Get.bar -a Rest_Api_Application_Put_Get
+            
+      - name: Build and Push
+        uses: zemuldo/docker-build-push@master        
+        with:
+          DOCKER_USERNAME: ${{ env.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: "$(oc whoami -t)"
+          REGISTRY_URL: "https://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/"
+          image_name: "my-image"
+          image_tag: "latest"
+      
+                  
+      
+      
+      
+        
+          
+          
+       
+      
+
