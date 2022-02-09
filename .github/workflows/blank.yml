@@ -11,6 +11,10 @@ env:
  BAR_CREATION: /opt/ace-11.0.0.7/tools/mqsicreatebar
  BAR_STORE: /home/bandaru/Templates
  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+ OPENSHIFT_USERNAME: ${{ secrets.OPENSHIFT_USERNAME }}
+ OPENSHIFT_PASSWORD: ${{ secrets.OPENSHIFT_PASSWORD }}
+ OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
+ OPENSHIFT_SERVER_URL: ${{ secrets.OPENSHIFT_SERVER_URL }}
  
 jobs:
   build:
@@ -25,14 +29,14 @@ jobs:
       - name: Bar File Creation
         run: $BAR_CREATION -data /root -b $BAR_STORE/Rest_Api_Application_Put_Get.bar -a Rest_Api_Application_Put_Get
             
-      - name: Build and Push
-        uses: zemuldo/docker-build-push@master        
+      - name: Authenticate and set context
+        uses: redhat-actions/oc-login@v1
         with:
-          DOCKER_USERNAME: ${{ env.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: "$(oc whoami -t)"
-          REGISTRY_URL: "https://default-route-openshift-image-registry.cp4intpg-wdc04-7upm3s-8946bbc006b7c6eb0829d088919818bb-0000.us-east.containers.appdomain.cloud/"
-          image_name: "my-image"
-          image_tag: "latest"
+         openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL }}
+         openshift_username: ${{ env.OPENSHIFT_USERNAME }}
+         openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
+         insecure_skip_tls_verify: true
+         namespace: ${{ env.OPENSHIFT_NAMESPACE }}
       
                   
       
