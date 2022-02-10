@@ -41,7 +41,7 @@ jobs:
          insecure_skip_tls_verify: true
          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
          
-      - name: Push To Quay Action
+      - name: Push To Registry
         uses: redhat-actions/push-to-registry@v2
         with:
          image: ${{ steps.build_image.outputs.image }}
