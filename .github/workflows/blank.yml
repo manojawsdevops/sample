@@ -15,6 +15,9 @@ env:
  OPENSHIFT_PASSWORD: ${{ secrets.OPENSHIFT_PASSWORD }}
  OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
  OPENSHIFT_SERVER_URL: ${{ secrets.OPENSHIFT_SERVER_URL }}
+ IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+ IMAGE_REGISTRY_USER: ${{ github.actor }}
+ IMAGE_REGISTRY_PASSWORD: ${{ github.token }}
  
 jobs:
   build:
@@ -37,9 +40,15 @@ jobs:
          openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
          insecure_skip_tls_verify: true
          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
-      
-                  
-      
+         
+      - name: Push To Quay Action
+        uses: redhat-actions/push-to-registry@v2
+        with:
+         image: ${{ steps.build_image.outputs.image }}
+         tags: ${{ steps.build_image.outputs.tags }}
+         registry: ghcr.io/${{ env.IMAGE_REGISTRY }}
+         username: ${{ env.IMAGE_REGISTRY_USER }}
+         password: ${{ env.IMAGE_REGISTRY_PASSWORD }}
       
       
         
